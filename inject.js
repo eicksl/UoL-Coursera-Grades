@@ -1,8 +1,14 @@
 const topElem = document.querySelector('.degree-header-cms-sticky-wrapper');
 const wrapper = document.createElement('div');
 wrapper.style.padding = '8px 0';
-wrapper.style.position = 'relative';
 topElem.insertAdjacentElement('afterend', wrapper);
+
+let hasNewGrades = false;
+const intGrades = localStorage.getItem('intGrades');
+if (!intGrades || intGrades < grades.length) {
+    hasNewGrades = true;
+    localStorage.setItem('intGrades', grades.length);
+}
 
 const gradesHtml = (() => {
     html = '';
@@ -38,6 +44,10 @@ else {
     outerModal.style.top = 0;
     outerModal.style.left = 0;
     outerModal.addEventListener('click', () => {
+        if (hasNewGrades) {
+            button.innerText = 'View Available Grades';
+            button.style.color = '#000';
+        }
         innerModal.style.display = 'none';
         outerModal.style.display = 'none';
     });
@@ -56,7 +66,13 @@ else {
 
     // button
     const button = document.createElement('div');
-    button.innerText = 'View Available Grades';
+    if (hasNewGrades) {
+        button.innerText = 'New Grade(s) Available';
+        button.style.color = 'darkgreen';
+    }
+    else {
+        button.innerText = 'View Available Grades';
+    }
     button.style.width = '190px';
     button.style.height = '30px';
     button.style.border = '2px solid';
