@@ -4,7 +4,10 @@ wrapper.style.padding = '8px 0';
 topElem.insertAdjacentElement('afterend', wrapper);
 
 const intGrades = localStorage.getItem('intGrades');
-const hasNewGrades = !intGrades || intGrades < grades.length;
+const hasNewGrades = intGrades === null || intGrades < grades.length;
+if (intGrades !== null && intGrades > grades.length) {
+    localStorage.setItem('intGrades', grades.length);
+}
 
 const gradesHtml = (() => {
     html = '';
@@ -24,6 +27,9 @@ const gradesHtml = (() => {
 if (!grades.length) {
     wrapper.innerText = 'No grades available at this time';
     wrapper.style.textAlign = 'center';
+    if (intGrades === null) {
+        localStorage.setItem('intGrades', 0);
+    }
 }
 else {
     // modal
