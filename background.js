@@ -1,24 +1,20 @@
-const req = {
-    body: null,
-    headers: null
-};
+const req = {body: null, headers: null};
 const targetUrl = 'https://www.coursera.org/api/grpc/degreehome/v1beta1/DegreeHomeCalendarAPI/GetDegreeHomeCalendar';
-let tabId = null;
 let sent = false;
 
 const processGrades = data => {
     const grades = [];
     for (const item of data.calendarItems) {
-        if (!item.assignment || item.assignment.assignmentType !== 'staffGraded' || !item.assignment.grade) {
+        if (!item.assignment || !item.assignment.grade || item.assignment.assignmentType !== 'staffGraded') {
             continue;
         }
         grades.push(item.assignment);
     }
     chrome.tabs.executeScript(
-        tabId,
+        null,
         {code: `const grades = ${JSON.stringify(grades)};`},
         () => {
-            chrome.tabs.executeScript(tabId, {file: 'inject.js'});
+            chrome.tabs.executeScript(null, {file: 'inject.js'});
         }
     );
 };
@@ -32,7 +28,7 @@ const convertHeaders = arr => {
 };
 
 const resendRequest = () => {
-    // The webRequest API does not offer a response body reader, so here the request
+    // The webRequest API does not provide a response body reader, so here the request
     // is resent using the same request body and headers
     fetch(targetUrl, {
         method: 'POST',
@@ -59,7 +55,7 @@ chrome.webRequest.onBeforeSendHeaders.addListener(
         req.headers = convertHeaders(details.requestHeaders);
         if (!sent) {
             sent = true;
-           resendRequest();
+            resendRequest();
         }
     },
     {urls: [targetUrl]},
