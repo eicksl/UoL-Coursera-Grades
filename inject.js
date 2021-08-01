@@ -3,12 +3,8 @@ const wrapper = document.createElement('div');
 wrapper.style.padding = '8px 0';
 topElem.insertAdjacentElement('afterend', wrapper);
 
-let hasNewGrades = false;
 const intGrades = localStorage.getItem('intGrades');
-if (!intGrades || intGrades < grades.length) {
-    hasNewGrades = true;
-    localStorage.setItem('intGrades', grades.length);
-}
+const hasNewGrades = !intGrades || intGrades < grades.length;
 
 const gradesHtml = (() => {
     html = '';
@@ -93,6 +89,9 @@ else {
     button.addEventListener('click', () => {
         outerModal.style.display = 'block';
         innerModal.style.display = 'block';
+        if (hasNewGrades) {
+            localStorage.setItem('intGrades', grades.length);
+        }
     });
     wrapper.appendChild(button);
 }
