@@ -1,6 +1,6 @@
 {
     "name": "UoL Coursera Grades",
-    "version": "0.0.1",
+    "version": "1.0.0",
     "manifest_version": 2,
     "description": "Shows staff-graded project grades on the calendar page",
     "icons": {
@@ -16,7 +16,6 @@
     },
     "permissions": [
         "https://www.coursera.org/degrees/bachelor-of-science-computer-science-london/home",
-        "tabs",
         "webRequest"
     ]
 }

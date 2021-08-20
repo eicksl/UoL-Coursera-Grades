@@ -39,6 +39,9 @@ const resendRequest = () => {
     .then(data => {
         processGrades(data);
         sent = false;
+    })
+    .catch(() => {
+        sent = false;
     });
 };
 
